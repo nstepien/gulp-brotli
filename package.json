@@ -1,0 +1,35 @@
+{
+  "name": "gulp-brotli",
+  "version": "1.0.0",
+  "description": "gulp plugin for brotli compression/decompression",
+  "homepage": "https://github.com/MayhemYDG/gulp-brotli",
+  "bugs": "https://github.com/MayhemYDG/gulp-brotli/issues",
+  "repository": "MayhemYDG/gulp-brotli",
+  "main": "index.js",
+  "keywords": [
+    "brotli",
+    "compression",
+    "decompression",
+    "gulpplugin"
+  ],
+  "author": "Nicolas Stepien <stepien.nicolas@gmail.com>",
+  "files": [
+    "index.js"
+  ],
+  "dependencies": {
+    "iltorb": "^1.0.0",
+    "through2": "^2.0.0"
+  },
+  "devDependencies": {
+    "event-stream": "^3.3.2",
+    "mocha": "^2.3.3",
+    "vinyl": "^1.0.0"
+  },
+  "engines": {
+    "node": ">=4.0.0"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "license": "MIT"
+}
