@@ -1,6 +1,6 @@
 {
   "name": "gulp-brotli",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "gulp plugin for brotli compression/decompression",
   "homepage": "https://github.com/MayhemYDG/gulp-brotli",
   "bugs": "https://github.com/MayhemYDG/gulp-brotli/issues",
