@@ -3,8 +3,8 @@
 exports.compress = compress;
 exports.decompress = decompress;
 
-const brotli  = require('iltorb');
-const through = require('through2');
+var brotli  = require('iltorb');
+var through = require('through2');
 
 function compress(params) {
   params = params || {};

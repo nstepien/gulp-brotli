@@ -19,8 +19,8 @@ Output files will have the `.br` suffix added.
 The `brotliParams` object will be passed on to [iltorb](https://github.com/MayhemYDG/iltorb#brotliparams);
 
 ```javascript
-const gulp   = require('gulp');
-const brotli = require('gulp-brotli');
+var gulp   = require('gulp');
+var brotli = require('gulp-brotli');
 
 gulp.task('example', function() {
   return gulp.src('path/to/input')
@@ -34,8 +34,8 @@ gulp.task('example', function() {
 Output files will have the `.br` suffix removed.
 
 ```javascript
-const gulp   = require('gulp');
-const brotli = require('gulp-brotli');
+var gulp   = require('gulp');
+var brotli = require('gulp-brotli');
 
 gulp.task('example', function() {
   return gulp.src('path/to/input')
