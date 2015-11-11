@@ -1,14 +1,14 @@
 'use strict';
 
-const assert = require('assert');
-const es = require('event-stream');
-const File = require('vinyl');
-const brotli = require('../');
+var assert = require('assert');
+var es = require('event-stream');
+var File = require('vinyl');
+var brotli = require('../');
 
 describe('gulp-brotli', function() {
   describe('streaming mode', function() {
     it('should compress and decompress', function(done) {
-      const fakeFile = new File({
+      var fakeFile = new File({
         path: '/test/file',
         contents: es.readArray(['stream', 'with', 'those', 'contents'])
       });
@@ -31,7 +31,7 @@ describe('gulp-brotli', function() {
 
   describe('buffer mode', function() {
     it('should compress and decompress', function(done) {
-      const fakeFile = new File({
+      var fakeFile = new File({
         path: '/test/file',
         contents: new Buffer('abufferwiththiscontent')
       });
