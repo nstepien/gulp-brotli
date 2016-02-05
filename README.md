@@ -12,25 +12,21 @@
 npm install gulp-brotli
 ```
 
-## Options
+### Options
 
-### options `Object`
-
-Object that is passed on to [iltorb](https://github.com/MayhemYDG/iltorb#brotliparams).
-
-Besides the options for [iltorb](https://github.com/MayhemYDG/iltorb#brotliparams) the following properties can be set on the options object.
+You can specify an optional `options` object that is passed on to [iltorb](https://github.com/MayhemYDG/iltorb#brotliparams) for compression, and accepts an additional property:
 
 #### extension `String`
 
-Appends a given extension to the filename. Defaults to `br`. Should not include a starting dot.
+Defaults to `br`. Should not include a starting dot.
 
-## Examples
+---
 
 ### compress([options])
 
 #### Default compression
 
-Output files have the `.br` extension.
+Output files will have the `.br` extension.
 
 ```javascript
 var gulp   = require('gulp');
@@ -45,7 +41,7 @@ gulp.task('example', function() {
 
 #### Custom compression
 
-Files are processed with maximum compression and output files have the `.brotli` extension.
+Files are processed with maximum compression and output files will have the `.brotli` extension.
 
 ```javascript
 var gulp   = require('gulp');
@@ -82,7 +78,7 @@ gulp.task('example', function() {
 
 #### Custom decompression
 
-Files with the `.brotli` extension are processed. Output files will have the `.brotli` extension removed.
+Output files will have the `.brotli` extension removed.
 
 ```javascript
 var gulp   = require('gulp');
