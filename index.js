@@ -44,7 +44,7 @@ function compress(params) {
 
 function decompress(params) {
   var extension = getExtension(params);
-  var reExtension = new RegExp('.' + extension + '$', 'i');
+  var reExtension = new RegExp('\\.' + extension + '$', 'i');
   return through.obj(function(file, enc, cb) {
     if (file.isNull()) {
       cb(null, file);
