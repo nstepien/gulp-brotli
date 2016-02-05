@@ -12,11 +12,25 @@
 npm install gulp-brotli
 ```
 
-### compress([brotliParams])
+## Options
 
-Output files will have the `.br` suffix added.
+### options `Object`
 
-The `brotliParams` object will be passed on to [iltorb](https://github.com/MayhemYDG/iltorb#brotliparams);
+Object that is passed on to [iltorb](https://github.com/MayhemYDG/iltorb#brotliparams).
+
+Besides the options for [iltorb](https://github.com/MayhemYDG/iltorb#brotliparams) the following properties can be set on the options object.
+
+#### extension `String`
+
+Appends a given extension to the filename. Defaults to `br`. Should not include a starting dot.
+
+## Examples
+
+### compress([options])
+
+#### Default compression
+
+Output files have the `.br` extension.
 
 ```javascript
 var gulp   = require('gulp');
@@ -29,9 +43,31 @@ gulp.task('example', function() {
 });
 ```
 
-### decompress()
+#### Custom compression
 
-Output files will have the `.br` suffix removed.
+Files are processed with maximum compression and output files have the `.brotli` extension.
+
+```javascript
+var gulp   = require('gulp');
+var brotli = require('gulp-brotli');
+
+gulp.task('example', function() {
+  return gulp.src('path/to/input')
+    .pipe(brotli.compress({
+      extension: 'brotli',
+      mode: 0,
+      quality: 11,
+      lgblock: 0
+    }))
+    .pipe(gulp.dest('path/to/output'));
+});
+```
+
+### decompress([options])
+
+#### Default decompression
+
+Output files will have the `.br` extension removed.
 
 ```javascript
 var gulp   = require('gulp');
@@ -40,6 +76,23 @@ var brotli = require('gulp-brotli');
 gulp.task('example', function() {
   return gulp.src('path/to/input')
     .pipe(brotli.decompress())
+    .pipe(gulp.dest('path/to/output'));
+});
+```
+
+#### Custom decompression
+
+Files with the `.brotli` extension are processed. Output files will have the `.brotli` extension removed.
+
+```javascript
+var gulp   = require('gulp');
+var brotli = require('gulp-brotli');
+
+gulp.task('example', function() {
+  return gulp.src('path/to/input')
+    .pipe(brotli.decompress({
+      extension: 'brotli'
+    }))
     .pipe(gulp.dest('path/to/output'));
 });
 ```

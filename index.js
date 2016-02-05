@@ -6,8 +6,14 @@ exports.decompress = decompress;
 var brotli  = require('iltorb');
 var through = require('through2');
 
+function getExtension(params) {
+  return params && params.extension || 'br';
+}
+
 function compress(params) {
   params = params || {};
+
+  var extension = getExtension(params);
 
   return through.obj(function(file, enc, cb) {
     if (file.isNull()) {
@@ -15,7 +21,7 @@ function compress(params) {
       return;
     }
 
-    file.path += '.br';
+    file.path += '.' + extension;
 
     if (file.isStream()) {
       file.contents = file.contents.pipe(brotli.compressStream(params));
@@ -36,14 +42,16 @@ function compress(params) {
   });
 }
 
-function decompress() {
+function decompress(params) {
+  var extension = getExtension(params);
+  var reExtension = new RegExp('.' + extension + '$', 'i');
   return through.obj(function(file, enc, cb) {
     if (file.isNull()) {
       cb(null, file);
       return;
     }
 
-    file.path = file.path.replace(/\.br$/i, '');
+    file.path = file.path.replace(reExtension, '');
 
     if (file.isStream()) {
       file.contents = file.contents.pipe(brotli.decompressStream());
