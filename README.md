@@ -14,11 +14,19 @@ npm install gulp-brotli
 
 ### Options
 
-You can specify an optional `options` object that is passed on to [iltorb](https://github.com/MayhemYDG/iltorb#brotliparams) for compression, and accepts an additional property:
+You can specify an optional `options` object that is passed on to [iltorb](https://github.com/MayhemYDG/iltorb#brotliparams) for compression, and accepts the following additional properties:
 
 #### extension `String`
 
 Defaults to `br`. Should not include a starting dot.
+
+#### skipLarger `Boolean`
+
+Enable this option to skip the compressed buffer if it is bigger than the input.
+
+Defaults to `false`.
+
+Note: this option will be ignored if the input is not passed to `gulp-brotli` as a buffer. For example by setting the `gulp.src` "[buffer](https://github.com/gulpjs/gulp/blob/master/docs/API.md#optionsbuffer)" option to false.
 
 ---
 
@@ -41,7 +49,7 @@ gulp.task('example', function() {
 
 #### Custom compression
 
-Files are processed with maximum compression and output files will have the `.brotli` extension.
+Files are processed with maximum compression, output files will have the `.brotli` extension, and compressed outputs that are larger than the input will not be written to disk.
 
 ```javascript
 var gulp   = require('gulp');
@@ -51,6 +59,7 @@ gulp.task('example', function() {
   return gulp.src('path/to/input')
     .pipe(brotli.compress({
       extension: 'brotli',
+      skipLarger: true,
       mode: 0,
       quality: 11,
       lgblock: 0

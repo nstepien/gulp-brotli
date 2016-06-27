@@ -74,4 +74,44 @@ describe('gulp-brotli', function() {
       });
     });
   });
+
+  describe('skip if larger', function() {
+    it('should skip larger outputs', function(done) {
+      var fakeFile = new File({
+        path: '/test/file',
+        contents: new Buffer('tiny buffer')
+      });
+
+      var compresser = brotli.compress({ skipLarger: true });
+      compresser.once('data', function(file) {
+        assert.fail(file, null, 'This file should have been skipped.');
+      });
+      compresser.once('end', done);
+
+      compresser.write(fakeFile);
+      compresser.end();
+    });
+
+    it('should not skip smaller outputs', function(done) {
+      var fakeFile = new File({
+        path: '/test/file',
+        contents: new Buffer('ababababababababab')
+      });
+
+      var uncompressedSize = fakeFile.contents.length;
+      var compresser = brotli.compress({ skipLarger: true });
+      var compressed = false;
+      compresser.once('data', function(file) {
+        compressed = true;
+        assert(file.contents.length < uncompressedSize);
+      });
+      compresser.once('end', function() {
+        assert(compressed);
+        done();
+      });
+
+      compresser.write(fakeFile);
+      compresser.end();
+    });
+  });
 });

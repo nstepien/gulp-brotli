@@ -35,8 +35,13 @@ function compress(params) {
           cb(err);
           return;
         }
-        file.contents = output;
-        cb(null, file);
+        var skipLarger = params.skipLarger || false;
+        if (skipLarger && output.length > file.contents.length) {
+          cb();
+        } else {
+          file.contents = output;
+          cb(null, file);
+        }
       });
     }
   });
