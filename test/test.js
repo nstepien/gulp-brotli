@@ -1,6 +1,7 @@
 'use strict';
 
 var assert = require('assert');
+var Readable = require('stream').Readable;
 var es = require('event-stream');
 var File = require('vinyl');
 var brotli = require('../');
@@ -10,7 +11,7 @@ describe('gulp-brotli', function() {
     it('should compress and decompress', function(done) {
       var fakeFile = new File({
         path: '/test/file',
-        contents: es.readArray(['stream', 'with', 'those', 'contents'])
+        contents: new Readable({objectMode: true}).wrap(es.readArray(['stream', 'with', 'those', 'contents']))
       });
 
       var compresser = brotli.compress();
@@ -33,7 +34,7 @@ describe('gulp-brotli', function() {
     it('should support custom extensions', function(done) {
       var fakeFile = new File({
         path: '/test/file',
-        contents: es.readArray(['this', 'is', 'custom', 'brotli'])
+        contents: new Readable({objectMode: true}).wrap(es.readArray(['this', 'is', 'custom', 'brotli']))
       });
 
       var compresser = brotli.compress({
