@@ -1,26 +1,29 @@
 'use strict';
 
-var assert = require('assert');
-var Readable = require('stream').Readable;
-var es = require('event-stream');
-var File = require('vinyl');
-var brotli = require('../');
+const assert = require('assert');
+const { Readable } = require('stream');
+const { basename } = require('path');
+const es = require('event-stream');
+const File = require('vinyl');
+const brotli = require('../');
 
 describe('gulp-brotli', function() {
   describe('streaming mode', function() {
     it('should compress and decompress', function(done) {
-      var fakeFile = new File({
+      const fakeFile = new File({
+        cwd: '/',
+        base: '/test/',
         path: '/test/file',
         contents: new Readable({objectMode: true}).wrap(es.readArray(['stream', 'with', 'those', 'contents']))
       });
 
-      var compresser = brotli.compress();
+      const compresser = brotli.compress();
       compresser.write(fakeFile);
-      assert.equal(fakeFile.path, '/test/file.br');
+      assert.equal(basename(fakeFile.path), 'file.br');
 
       compresser.pipe(brotli.decompress()).once('data', function(file) {
         assert(file.isStream());
-        assert.equal(file.path, '/test/file');
+        assert.equal(basename(file.path), 'file');
 
         file.contents.pipe(es.wait(function(err, data) {
           assert.equal(data.toString(), 'streamwiththosecontents');
@@ -32,20 +35,20 @@ describe('gulp-brotli', function() {
 
   describe('custom extension', function() {
     it('should support custom extensions', function(done) {
-      var fakeFile = new File({
+      const fakeFile = new File({
         path: '/test/file',
         contents: new Readable({objectMode: true}).wrap(es.readArray(['this', 'is', 'custom', 'brotli']))
       });
 
-      var compresser = brotli.compress({
+      const compresser = brotli.compress({
         extension: 'brotli'
       });
       compresser.write(fakeFile);
-      assert.equal(fakeFile.path, '/test/file.brotli');
+      assert.equal(basename(fakeFile.path), 'file.brotli');
 
       compresser.pipe(brotli.decompress({ extension: 'brotli' })).once('data', function(file) {
         assert(file.isStream());
-        assert.equal(file.path, '/test/file');
+        assert.equal(basename(file.path), 'file');
 
         file.contents.pipe(es.wait(function(err, data) {
           assert.equal(data.toString(), 'thisiscustombrotli');
@@ -57,18 +60,18 @@ describe('gulp-brotli', function() {
 
   describe('buffer mode', function() {
     it('should compress and decompress', function(done) {
-      var fakeFile = new File({
+      const fakeFile = new File({
         path: '/test/file',
-        contents: new Buffer('abufferwiththiscontent')
+        contents: Buffer.from('abufferwiththiscontent')
       });
 
-      var compresser = brotli.compress();
+      const compresser = brotli.compress();
       compresser.write(fakeFile);
-      assert.equal(fakeFile.path, '/test/file.br');
+      assert.equal(basename(fakeFile.path), 'file.br');
 
       compresser.pipe(brotli.decompress()).once('data', function(file) {
         assert(file.isBuffer());
-        assert.equal(file.path, '/test/file');
+        assert.equal(basename(file.path), 'file');
 
         assert.equal(file.contents.toString(), 'abufferwiththiscontent');
         done();
@@ -78,12 +81,12 @@ describe('gulp-brotli', function() {
 
   describe('skip if larger', function() {
     it('should skip larger outputs', function(done) {
-      var fakeFile = new File({
+      const fakeFile = new File({
         path: '/test/file',
-        contents: new Buffer('tiny buffer')
+        contents: Buffer.from('tiny buffer')
       });
 
-      var compresser = brotli.compress({ skipLarger: true });
+      const compresser = brotli.compress({ skipLarger: true });
       compresser.once('data', function(file) {
         assert.fail(file, null, 'This file should have been skipped.');
       });
@@ -94,14 +97,14 @@ describe('gulp-brotli', function() {
     });
 
     it('should not skip smaller outputs', function(done) {
-      var fakeFile = new File({
+      const fakeFile = new File({
         path: '/test/file',
-        contents: new Buffer('ababababababababab')
+        contents: Buffer.from('ababababababababab')
       });
 
-      var uncompressedSize = fakeFile.contents.length;
-      var compresser = brotli.compress({ skipLarger: true });
-      var compressed = false;
+      const uncompressedSize = fakeFile.contents.length;
+      const compresser = brotli.compress({ skipLarger: true });
+      let compressed = false;
       compresser.once('data', function(file) {
         compressed = true;
         assert(file.contents.length < uncompressedSize);

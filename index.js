@@ -3,8 +3,8 @@
 exports.compress = compress;
 exports.decompress = decompress;
 
-var brotli  = require('iltorb');
-var through = require('through2');
+const brotli  = require('iltorb');
+const through = require('through2');
 
 function getExtension(params) {
   return params && params.extension || 'br';
@@ -13,7 +13,7 @@ function getExtension(params) {
 function compress(params) {
   params = params || {};
 
-  var extension = getExtension(params);
+  const extension = getExtension(params);
 
   return through.obj(function(file, enc, cb) {
     if (file.isNull()) {
@@ -35,7 +35,7 @@ function compress(params) {
           cb(err);
           return;
         }
-        var skipLarger = params.skipLarger || false;
+        const skipLarger = params.skipLarger || false;
         if (skipLarger && output.length > file.contents.length) {
           cb();
         } else {
@@ -48,8 +48,9 @@ function compress(params) {
 }
 
 function decompress(params) {
-  var extension = getExtension(params);
-  var reExtension = new RegExp('\\.' + extension + '$', 'i');
+  const extension = getExtension(params);
+  const reExtension = new RegExp('\\.' + extension + '$', 'i');
+
   return through.obj(function(file, enc, cb) {
     if (file.isNull()) {
       cb(null, file);
