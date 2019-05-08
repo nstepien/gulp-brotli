@@ -1,6 +1,6 @@
 # gulp-brotli
 
-[![NPM Version][npm-badge]][npm-url] [![Build Status][travis-badge]][travis-url]
+[![NPM Version][npm-badge]][npm-url] [![Build Status][pipelines-badge]][pipelines-url]
 
 [gulp-brotli](https://www.npmjs.com/package/gulp-brotli) is a [gulp](https://github.com/gulpjs/gulp) plugin for file compression/decompression using the [brotli](https://github.com/google/brotli) compression library via [iltorb](https://github.com/MayhemYDG/iltorb).
 
@@ -104,5 +104,5 @@ gulp.task('example', function() {
 
 [npm-badge]: https://img.shields.io/npm/v/gulp-brotli.svg
 [npm-url]: https://www.npmjs.com/package/gulp-brotli
-[travis-badge]: https://img.shields.io/travis/MayhemYDG/gulp-brotli.svg
-[travis-url]: https://travis-ci.org/MayhemYDG/gulp-brotli
+[pipelines-badge]: https://dev.azure.com/nstp/gulp-brotli/_apis/build/status/MayhemYDG.gulp-brotli?branchName=master
+[pipelines-url]: https://dev.azure.com/nstp/gulp-brotli/_build/latest?definitionId=1&branchName=master
