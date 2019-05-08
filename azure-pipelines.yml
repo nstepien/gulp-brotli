@@ -45,6 +45,9 @@ strategy:
       node_version: 12.x
       imageName: 'windows-latest'
 
+pool:
+  vmImage: $(imageName)
+
 steps:
 - task: NodeTool@0
   inputs:
